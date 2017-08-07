@@ -27,11 +27,12 @@ var pool = mysql.createPool(option)
         var password = req.body['password'];
         console.log(password);
         var passwordNew = req.body.passwordNew;
+        var passwordNew1 = req.body.passwordNew1;
         pool.getConnection(function (error,connection) {
             var select = 'select * from user where password='+password;
             connection.query(select,function (error,results) {
                 handlerError('查询1',error);
-                if(results.length!==0){
+                if(results.length!==0 && passwordNew===passwordNew1){
                     var update = `update user set password=${passwordNew} where password=${results[0].password}`;
                     connection.query(update,function (error) {
                         if(error){
